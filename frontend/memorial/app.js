@@ -5,7 +5,6 @@
   const API_FOTOS = `${API_BASE}/api/fotos`;
   const API_STATUS = `${API_BASE}/api/fotos/status`;
   const API_ADMIN_ME = `${API_BASE}/api/admin/me`;
-  const API_RSVP = `${API_BASE}/api/convidados`;
   const MAX_SIZE = 10 * 1024 * 1024;
   const ALLOWED_EXTENSIONS = [".jpg", ".jpeg", ".png", ".webp"];
   const ALLOWED_MIMES = ["image/jpeg", "image/png", "image/webp"];
@@ -36,12 +35,6 @@
   const $periodBannerText = document.getElementById("periodBannerText");
   const $authBanner = document.getElementById("authBanner");
   const $authBannerText = document.getElementById("authBannerText");
-
-  const $rsvpForm = document.getElementById("rsvpForm");
-  const $rsvpBtn = document.getElementById("rsvpBtn");
-  const $rsvpBtnText = $rsvpBtn.querySelector(".btn-text");
-  const $rsvpBtnLoading = $rsvpBtn.querySelector(".btn-loading");
-  const $rsvpStatus = document.getElementById("rsvpStatus");
 
   // ─── Stars ───────────────────────────────────────────────────
   function createStars() {
@@ -352,63 +345,6 @@
       console.warn("Nao foi possivel verificar status de envio:", err);
     }
   }
-
-  // ─── RSVP Form ──────────────────────────────────────────────
-  const vaiRadios = document.querySelectorAll('input[name="vai"]');
-  const acompanhantesGroup = document.getElementById("acompanhantesGroup");
-
-  vaiRadios.forEach((radio) => {
-    radio.addEventListener("change", () => {
-      acompanhantesGroup.style.display = radio.value === "sim" ? "" : "none";
-    });
-  });
-
-  $rsvpForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    hideStatus($rsvpStatus);
-
-    const nome = sanitizeText(document.getElementById("rsvpNome").value);
-    if (!nome) {
-      showStatus($rsvpStatus, "Por favor, informe seu nome.", "error");
-      return;
-    }
-
-    const email = sanitizeText(document.getElementById("rsvpEmail").value);
-    const telefone = sanitizeText(document.getElementById("rsvpTelefone").value);
-    const vai = document.querySelector('input[name="vai"]:checked').value;
-    const numAcomp = parseInt(document.getElementById("rsvpAcomp").value, 10) || 0;
-    const mensagem = sanitizeText(document.getElementById("rsvpMsg").value).slice(0, 200);
-
-    const payload = { nome, email, telefone, vai, num_acompanhantes: numAcomp, mensagem };
-
-    $rsvpBtn.disabled = true;
-    $rsvpBtnText.hidden = true;
-    $rsvpBtnLoading.hidden = false;
-
-    try {
-      const response = await fetch(API_RSVP, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Erro ao confirmar presenca.");
-      }
-
-      showStatus($rsvpStatus, "Presenca confirmada com sucesso! Obrigado por confirmar. ✨", "success");
-      $rsvpForm.reset();
-      acompanhantesGroup.style.display = "";
-    } catch (err) {
-      showStatus($rsvpStatus, err.message || "Nao foi possivel confirmar. Tente novamente.", "error");
-    } finally {
-      $rsvpBtn.disabled = false;
-      $rsvpBtnText.hidden = false;
-      $rsvpBtnLoading.hidden = true;
-    }
-  });
 
   // ─── Init ────────────────────────────────────────────────────
   checkUploadStatus();

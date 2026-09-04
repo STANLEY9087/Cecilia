@@ -22,7 +22,6 @@
       <nav class="nav">
         <a href="../convite/index.html" class="nav-link">Inicio</a>
         <a href="index.html" class="nav-link active">Fotos</a>
-        <a href="#rsvp" class="nav-link">Confirmar</a>
       </nav>
     </div>
   </header>
@@ -92,69 +91,6 @@
     <div class="gallery-empty" id="galleryEmpty" hidden>
       <p>Nenhuma foto publicada ainda.</p>
       <p>Seja o primeiro a compartilhar um momento!</p>
-    </div>
-  </section>
-
-  <section class="rsvp-section" id="rsvp">
-    <div class="rsvp-card">
-      <h2 class="rsvp-title">CONFIRMAR PRESENCA</h2>
-      <p class="rsvp-subtitle">Vai celebrar com a Cecilia?</p>
-      <p class="rsvp-desc">Confirme sua presenca para prepararmos tudo com carinho.</p>
-
-      <form id="rsvpForm" class="rsvp-form">
-        <div class="form-group">
-          <label class="form-label" for="rsvpNome">Seu nome completo *</label>
-          <input type="text" id="rsvpNome" name="nome" class="form-input" placeholder="Nome completo" maxlength="150" required>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="rsvpEmail">E-mail (opcional)</label>
-          <input type="email" id="rsvpEmail" name="email" class="form-input" placeholder="seu@email.com" maxlength="200">
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="rsvpTelefone">Telefone (opcional)</label>
-          <input type="tel" id="rsvpTelefone" name="telefone" class="form-input" placeholder="(11) 99999-9999" maxlength="20">
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Vai comparecer? *</label>
-          <div class="radio-group">
-            <label class="radio-label">
-              <input type="radio" name="vai" value="sim" checked> Sim, estarei la!
-            </label>
-            <label class="radio-label">
-              <input type="radio" name="vai" value="nao"> Nao poderei ir
-            </label>
-            <label class="radio-label">
-              <input type="radio" name="vai" value="talvez"> Ainda nao tenho certeza
-            </label>
-          </div>
-        </div>
-
-        <div class="form-group" id="acompanhantesGroup">
-          <label class="form-label" for="rsvpAcomp">Numero de acompanhantes</label>
-          <select id="rsvpAcomp" name="num_acompanhantes" class="form-input">
-            <option value="0">So eu</option>
-            <option value="1">1 acompanhante</option>
-            <option value="2">2 acompanhantes</option>
-            <option value="3">3 acompanhantes</option>
-            <option value="4">4 acompanhantes</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="rsvpMsg">Mensagem para a Cecilia (opcional)</label>
-          <textarea id="rsvpMsg" name="mensagem" class="form-textarea" placeholder="Deixe sua mensagem..." maxlength="200" rows="3"></textarea>
-        </div>
-
-        <button type="submit" id="rsvpBtn" class="submit-btn">
-          <span class="btn-text">Confirmar</span>
-          <span class="btn-loading" hidden>Enviando...</span>
-        </button>
-      </form>
-
-      <div id="rsvpStatus" class="upload-status" hidden></div>
     </div>
   </section>
 
