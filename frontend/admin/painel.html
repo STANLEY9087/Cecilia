@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel Admin - Cecilia 15 Anos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="stars-bg" id="starsBg"></div>
+
+  <div class="panel-page">
+    <header class="panel-header">
+      <a href="../memorial/index.html" class="panel-logo">
+        <span class="logo-name">CECILIA</span>
+        <span class="logo-age">15</span>
+      </a>
+      <div class="panel-header-right">
+        <span id="adminInfo" style="font-size:0.8rem; color:var(--color-text-muted);"></span>
+        <a href="../memorial/index.html">Ver galeria</a>
+        <button class="logout-btn" id="logoutBtn">Sair</button>
+      </div>
+    </header>
+
+    <div class="stats-grid" id="statsGrid">
+      <div class="stat-card">
+        <span class="stat-number" id="statTotal">0</span>
+        <span class="stat-label">Total de Fotos</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number" id="statPendente">0</span>
+        <span class="stat-label">Pendentes</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number" id="statAprovado">0</span>
+        <span class="stat-label">Aprovadas</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number" id="statConvidados">0</span>
+        <span class="stat-label">Convidados</span>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="fotos">
+        Fotos <span class="badge" id="tabBadgeFotos">0</span>
+      </button>
+      <button class="tab-btn" data-tab="convidados">
+        Convidados <span class="badge" id="tabBadgeConvidados">0</span>
+      </button>
+    </div>
+
+    <div class="tab-content active" id="tab-fotos">
+      <div style="display:flex; gap:0.5rem; margin-bottom:1rem; flex-wrap:wrap;">
+        <button class="tab-btn active" data-filter="todos" style="border:1px solid var(--color-border); border-radius:var(--radius-sm);">Todos</button>
+        <button class="tab-btn" data-filter="pendente" style="border:1px solid var(--color-border); border-radius:var(--radius-sm);">Pendentes</button>
+        <button class="tab-btn" data-filter="aprovado" style="border:1px solid var(--color-border); border-radius:var(--radius-sm);">Aprovados</button>
+        <button class="tab-btn" data-filter="rejeitado" style="border:1px solid var(--color-border); border-radius:var(--radius-sm);">Rejeitados</button>
+      </div>
+      <div class="photo-moderation-grid" id="photoGrid"></div>
+      <div class="empty-state" id="photoEmpty" hidden>
+        <p>Nenhuma foto encontrada.</p>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-convidados">
+      <table class="guests-table">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Telefone</th>
+            <th>Presenca</th>
+            <th>Acomp.</th>
+            <th>Mensagem</th>
+            <th>Data</th>
+          </tr>
+        </thead>
+        <tbody id="guestsBody"></tbody>
+      </table>
+      <div class="empty-state" id="guestsEmpty" hidden>
+        <p>Nenhum convidado confirmado ainda.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var bg = document.getElementById("starsBg");
+      for (var i = 0; i < 40; i++) {
+        var s = document.createElement("div");
+        s.className = "star";
+        s.style.left = Math.random() * 100 + "%";
+        s.style.top = Math.random() * 100 + "%";
+        s.style.setProperty("--duration", 2 + Math.random() * 4 + "s");
+        s.style.setProperty("--delay", Math.random() * 4 + "s");
+        var sz = 1 + Math.random() * 2;
+        s.style.width = sz + "px";
+        s.style.height = sz + "px";
+        bg.appendChild(s);
+      }
+    })();
+  </script>
+  <script src="painel.js"></script>
+</body>
+</html>

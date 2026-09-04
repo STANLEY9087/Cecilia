@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cecilia - 15 Anos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="stars-bg" id="starsBg"></div>
+  <div class="content">
+    <span class="logo-name">CECILIA</span>
+    <span class="logo-age">15</span>
+    <p class="tagline">Convite Especial</p>
+    <p class="date">Celebre comigo esta noite inesquecivel</p>
+    <div class="cta-group">
+      <a href="../memorial/index.html" class="cta-link">Fotos</a>
+      <a href="../memorial/index.html#rsvp" class="cta-link cta-secondary">Confirmar Presenca</a>
+    </div>
+  </div>
+  <footer class="footer">&copy; 2026 - Cecilia 15 Anos</footer>
+  <script>
+    (function() {
+      var bg = document.getElementById('starsBg');
+      for (var i = 0; i < 50; i++) {
+        var s = document.createElement('div');
+        s.className = 'star';
+        s.style.left = Math.random() * 100 + '%';
+        s.style.top = Math.random() * 100 + '%';
+        s.style.setProperty('--dur', 2 + Math.random() * 4 + 's');
+        s.style.setProperty('--del', Math.random() * 4 + 's');
+        var sz = 1 + Math.random() * 2;
+        s.style.width = sz + 'px'; s.style.height = sz + 'px';
+        bg.appendChild(s);
+      }
+    })();
+  </script>
+</body>
+</html>

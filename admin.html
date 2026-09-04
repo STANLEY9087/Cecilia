@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Admin - Cecília 15 Anos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="fotos.css">
+  <style>
+    .login-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+    }
+
+    .login-card {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .login-card-body {
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      padding: 2rem 1.8rem;
+      backdrop-filter: blur(8px);
+      text-align: center;
+    }
+
+    .login-title {
+      font-family: var(--font-title);
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--color-primary);
+      letter-spacing: 0.15em;
+      margin-bottom: 0.3rem;
+    }
+
+    .login-subtitle {
+      font-family: var(--font-title);
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--color-violet-light);
+      margin-bottom: 1.5rem;
+    }
+
+    .login-status {
+      margin-top: 1rem;
+      min-height: 1.5rem;
+      font-size: 0.85rem;
+      text-align: center;
+    }
+
+    .login-status.error { color: var(--color-error); }
+    .login-status.success { color: var(--color-success); }
+
+    .login-back {
+      display: block;
+      margin-top: 1.2rem;
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+
+    .login-back:hover { color: var(--color-primary); }
+  </style>
+</head>
+<body>
+  <div class="stars-bg" id="starsBg"></div>
+
+  <div class="login-page">
+    <div class="login-card">
+      <div class="login-card-body">
+        <h1 class="login-title">CECILIA</h1>
+        <p class="login-subtitle">Acesso Restrito</p>
+
+        <form id="loginForm">
+          <div class="form-group">
+            <label class="form-label" for="password">Senha do admin</label>
+            <input
+              type="password"
+              id="password"
+              class="form-input"
+              placeholder="Digite a senha"
+              autocomplete="current-password"
+              required
+            >
+          </div>
+
+          <button type="submit" id="loginBtn" class="submit-btn">
+            <span class="btn-text">Entrar</span>
+            <span class="btn-loading" hidden>Entrando...</span>
+          </button>
+        </form>
+
+        <div id="loginStatus" class="login-status"></div>
+
+        <a href="fotos.html" class="login-back">&larr; Voltar para a galeria</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var bg = document.getElementById("starsBg");
+      for (var i = 0; i < 50; i++) {
+        var s = document.createElement("div");
+        s.className = "star";
+        s.style.left = Math.random() * 100 + "%";
+        s.style.top = Math.random() * 100 + "%";
+        s.style.setProperty("--duration", 2 + Math.random() * 4 + "s");
+        s.style.setProperty("--delay", Math.random() * 4 + "s");
+        var sz = 1 + Math.random() * 2;
+        s.style.width = sz + "px";
+        s.style.height = sz + "px";
+        bg.appendChild(s);
+      }
+    })();
+
+    (function () {
+      var form = document.getElementById("loginForm");
+      var password = document.getElementById("password");
+      var statusEl = document.getElementById("loginStatus");
+      var btn = document.getElementById("loginBtn");
+      var btnText = btn.querySelector(".btn-text");
+      var btnLoading = btn.querySelector(".btn-loading");
+
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        statusEl.textContent = "";
+        statusEl.className = "login-status";
+
+        var value = password.value;
+
+        btn.disabled = true;
+        btnText.hidden = true;
+        btnLoading.hidden = false;
+
+        try {
+          var res = await fetch("/api/admin/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ password: value }),
+          });
+
+          var data = await res.json();
+
+          if (!res.ok || !data.success) {
+            statusEl.textContent = data.message || "Senha incorreta.";
+            statusEl.className = "login-status error";
+          } else {
+            statusEl.textContent = "Login realizado. Redirecionando...";
+            statusEl.className = "login-status success";
+            setTimeout(function () {
+              window.location.href = "fotos.html";
+            }, 600);
+          }
+        } catch (err) {
+          statusEl.textContent = "Nao foi possivel conectar ao servidor.";
+          statusEl.className = "login-status error";
+        } finally {
+          btn.disabled = false;
+          btnText.hidden = false;
+          btnLoading.hidden = true;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

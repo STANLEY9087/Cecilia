@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fotos - Cecilia 15 Anos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="stars-bg" id="starsBg"></div>
+
+  <header class="header">
+    <div class="header-inner">
+      <a href="../convite/index.html" class="logo">
+        <span class="logo-name">CECILIA</span>
+        <span class="logo-age">15</span>
+      </a>
+      <nav class="nav">
+        <a href="../convite/index.html" class="nav-link">Inicio</a>
+        <a href="index.html" class="nav-link active">Fotos</a>
+        <a href="#rsvp" class="nav-link">Confirmar</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h1 class="hero-title">MEMORIAS DA NOITE</h1>
+    <p class="hero-subtitle">Galeria de Fotos</p>
+    <p class="hero-desc">Compartilhe os momentos especiais da festa de 15 anos da Cecilia.</p>
+  </section>
+
+  <section class="upload-section">
+    <div class="upload-card">
+      <div class="period-banner" id="periodBanner" hidden>
+        <p class="period-banner-text" id="periodBannerText"></p>
+      </div>
+
+      <div class="period-banner" id="authBanner" hidden>
+        <p class="period-banner-text" id="authBannerText"></p>
+      </div>
+
+      <h2 class="upload-card-title">COMPARTILHE SUA FOTO</h2>
+      <p class="upload-card-desc">Tirou uma foto com a Cecilia?</p>
+      <p class="upload-card-subdesc">Envie sua foto para fazer parte da galeria oficial da festa.</p>
+
+      <form id="uploadForm" class="upload-form">
+        <div class="form-group">
+          <label class="form-label" for="fotoInput">Escolha uma foto</label>
+          <div class="file-input-wrapper" id="fileInputWrapper">
+            <input type="file" id="fotoInput" name="foto" accept=".jpg,.jpeg,.png,.webp" required hidden>
+            <span class="file-input-text" id="fileInputText">Selecionar imagem...</span>
+            <span class="file-input-name" id="fileName"></span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="nomeInput">Seu nome</label>
+          <input type="text" id="nomeInput" name="nome" class="form-input" placeholder="Opcional" maxlength="100">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="msgInput">Deixe uma mensagem para a Cecilia (opcional)</label>
+          <textarea id="msgInput" name="mensagem" class="form-textarea" placeholder="Parabens, Cecilia!" maxlength="160" rows="3"></textarea>
+          <span class="char-count"><span id="charCount">0</span>/160</span>
+        </div>
+
+        <button type="submit" id="submitBtn" class="submit-btn">
+          <span class="btn-text">Publicar foto</span>
+          <span class="btn-loading" hidden>Enviando...</span>
+        </button>
+      </form>
+
+      <div id="uploadStatus" class="upload-status" hidden></div>
+    </div>
+  </section>
+
+  <section class="gallery-section">
+    <div class="gallery-header">
+      <div>
+        <h2 class="gallery-title">MOMENTOS</h2>
+        <p class="gallery-subtitle">Galeria</p>
+      </div>
+      <button class="refresh-btn" id="refreshBtn">Atualizar</button>
+    </div>
+
+    <div class="gallery-grid" id="galleryGrid"></div>
+
+    <div class="gallery-empty" id="galleryEmpty" hidden>
+      <p>Nenhuma foto publicada ainda.</p>
+      <p>Seja o primeiro a compartilhar um momento!</p>
+    </div>
+  </section>
+
+  <section class="rsvp-section" id="rsvp">
+    <div class="rsvp-card">
+      <h2 class="rsvp-title">CONFIRMAR PRESENCA</h2>
+      <p class="rsvp-subtitle">Vai celebrar com a Cecilia?</p>
+      <p class="rsvp-desc">Confirme sua presenca para prepararmos tudo com carinho.</p>
+
+      <form id="rsvpForm" class="rsvp-form">
+        <div class="form-group">
+          <label class="form-label" for="rsvpNome">Seu nome completo *</label>
+          <input type="text" id="rsvpNome" name="nome" class="form-input" placeholder="Nome completo" maxlength="150" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="rsvpEmail">E-mail (opcional)</label>
+          <input type="email" id="rsvpEmail" name="email" class="form-input" placeholder="seu@email.com" maxlength="200">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="rsvpTelefone">Telefone (opcional)</label>
+          <input type="tel" id="rsvpTelefone" name="telefone" class="form-input" placeholder="(11) 99999-9999" maxlength="20">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Vai comparecer? *</label>
+          <div class="radio-group">
+            <label class="radio-label">
+              <input type="radio" name="vai" value="sim" checked> Sim, estarei la!
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="vai" value="nao"> Nao poderei ir
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="vai" value="talvez"> Ainda nao tenho certeza
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group" id="acompanhantesGroup">
+          <label class="form-label" for="rsvpAcomp">Numero de acompanhantes</label>
+          <select id="rsvpAcomp" name="num_acompanhantes" class="form-input">
+            <option value="0">So eu</option>
+            <option value="1">1 acompanhante</option>
+            <option value="2">2 acompanhantes</option>
+            <option value="3">3 acompanhantes</option>
+            <option value="4">4 acompanhantes</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="rsvpMsg">Mensagem para a Cecilia (opcional)</label>
+          <textarea id="rsvpMsg" name="mensagem" class="form-textarea" placeholder="Deixe sua mensagem..." maxlength="200" rows="3"></textarea>
+        </div>
+
+        <button type="submit" id="rsvpBtn" class="submit-btn">
+          <span class="btn-text">Confirmar</span>
+          <span class="btn-loading" hidden>Enviando...</span>
+        </button>
+      </form>
+
+      <div id="rsvpStatus" class="upload-status" hidden></div>
+    </div>
+  </section>
+
+  <div class="modal-overlay" id="modalOverlay" hidden>
+    <button class="modal-close" id="modalClose" aria-label="Fechar">&times;</button>
+    <div class="modal-content">
+      <img class="modal-img" id="modalImg" src="" alt="">
+      <div class="modal-info">
+        <p class="modal-name" id="modalName"></p>
+        <p class="modal-message" id="modalMessage"></p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>&copy; 2026 - Cecilia 15 Anos</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

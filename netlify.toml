@@ -1,0 +1,17 @@
+[build]
+  publish = "frontend"
+
+[[redirects]]
+  from = "/convite/*"
+  to = "/convite/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/memorial/*"
+  to = "/memorial/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin/*"
+  to = "/admin/login.html"
+  status = 200
