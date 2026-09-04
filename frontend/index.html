@@ -1,111 +1,1067 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cecilia - 15 Anos</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-    :root {
-      --color-bg: #0a0a1a;
-      --color-primary: #c9a84c;
-      --color-primary-light: #e8d48b;
-      --color-violet: #7b5ea7;
-      --color-violet-light: #a78bca;
-      --color-text: #e8e6f0;
-      --color-text-muted: #9a96b0;
-      --color-border: rgba(201, 168, 76, 0.2);
-      --font-title: 'Cormorant Garamond', Georgia, serif;
-      --font-body: 'Montserrat', 'Segoe UI', sans-serif;
-    }
+    <meta charset="UTF-8">
 
-    body {
-      font-family: var(--font-body);
-      background: var(--color-bg);
-      color: var(--color-text);
-      min-height: 100vh;
-      overflow-x: hidden;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 2rem 1.5rem;
-    }
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    .stars-bg {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      z-index: 0; pointer-events: none;
-    }
-    .star {
-      position: absolute; width: 2px; height: 2px; background: #fff;
-      border-radius: 50%; animation: twinkle var(--dur, 3s) ease-in-out infinite;
-      animation-delay: var(--del, 0s); opacity: 0;
-    }
-    @keyframes twinkle { 0%,100% { opacity: 0.1; } 50% { opacity: 0.8; } }
+    <title>15 Anos | Cecília</title>
 
-    .content { position: relative; z-index: 1; max-width: 600px; }
-    .logo-name {
-      font-family: var(--font-title); font-size: clamp(2.5rem, 7vw, 4rem);
-      font-weight: 600; color: var(--color-primary); letter-spacing: 0.2em;
-    }
-    .logo-age {
-      font-family: var(--font-title); font-size: clamp(1.5rem, 4vw, 2.5rem);
-      font-weight: 700; display: block; margin-top: -0.5rem;
-      background: linear-gradient(135deg, var(--color-primary), var(--color-violet-light));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .tagline {
-      font-family: var(--font-title); font-size: 1.1rem; font-style: italic;
-      color: var(--color-violet-light); margin: 1.5rem 0 0.5rem;
-    }
-    .date {
-      font-size: 0.9rem; color: var(--color-text-muted); font-weight: 300;
-      letter-spacing: 0.1em; margin-bottom: 2.5rem;
-    }
-    .cta-link {
-      display: inline-block; padding: 0.75rem 2rem; text-decoration: none;
-      background: linear-gradient(135deg, var(--color-primary), var(--color-violet));
-      color: #fff; font-family: var(--font-body); font-size: 0.9rem; font-weight: 500;
-      letter-spacing: 0.08em; border-radius: 8px; transition: opacity 0.3s;
-    }
-    .cta-link:hover { opacity: 0.9; }
-    .footer {
-      position: relative; z-index: 1; margin-top: 3rem;
-      font-size: 0.7rem; color: var(--color-text-muted); opacity: 0.5;
-    }
-  </style>
+    <!-- =========================
+         GOOGLE FONTS
+    ========================== -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- CSS -->
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
 </head>
+
+
 <body>
-  <div class="stars-bg" id="starsBg"></div>
-  <div class="content">
-    <span class="logo-name">CECILIA</span>
-    <span class="logo-age">15</span>
-    <p class="tagline">Convite Especial</p>
-    <p class="date">Celebre comigo esta noite inesquecivel</p>
-    <a href="convite/index.html" class="cta-link">Fotos</a>
-  </div>
-  <footer class="footer">&copy; 2026 - Cecilia 15 Anos</footer>
-  <script>
-    (function() {
-      var bg = document.getElementById('starsBg');
-      for (var i = 0; i < 50; i++) {
-        var s = document.createElement('div');
-        s.className = 'star';
-        s.style.left = Math.random() * 100 + '%';
-        s.style.top = Math.random() * 100 + '%';
-        s.style.setProperty('--dur', 2 + Math.random() * 4 + 's');
-        s.style.setProperty('--del', Math.random() * 4 + 's');
-        var sz = 1 + Math.random() * 2;
-        s.style.width = sz + 'px'; s.style.height = sz + 'px';
-        bg.appendChild(s);
-      }
-    })();
-  </script>
+
+
+    <!-- =====================================================
+         SPLASH SCREEN
+    ====================================================== -->
+
+    <div
+        id="splash"
+        class="splash"
+    >
+
+        <div class="splash-content">
+
+            <div class="ballet-symbol">
+                ✦
+            </div>
+
+            <p class="small-title">
+                MEU BAILE DE
+            </p>
+
+            <h1 class="numero-15">
+                15 Anos
+            </h1>
+
+            <div class="line"></div>
+
+            <p class="name">
+                Cecília
+            </p>
+
+            <p class="splash-date">
+                20 . 12 . 2026
+            </p>
+
+            <button
+                id="enterButton"
+                type="button"
+            >
+                Entrar no convite
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <header class="hero">
+
+        <video
+            class="hero-video"
+            autoplay
+            muted
+            loop
+            playsinline
+        >
+
+            <source
+                src="video/balle.mp4"
+                type="video/mp4"
+            >
+
+            Seu navegador não suporta vídeos.
+
+        </video>
+
+
+        <div class="hero-overlay"></div>
+
+
+        <div class="hero-content">
+
+            <p class="hero-small">
+                UMA NOITE ESPECIAL
+            </p>
+
+            <h1>
+                Cecília
+            </h1>
+
+            <span>
+                15 anos
+            </span>
+
+            <p class="hero-date">
+                20 DE DEZEMBRO DE 2026
+            </p>
+
+
+            <div class="scroll-indicator">
+
+                <span>
+                    ROLE PARA DESCOBRIR
+                </span>
+
+                <div class="arrow">
+                    ↓
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         CONVITE
+    ====================================================== -->
+
+    <section class="invitation">
+
+
+        <div class="section-title">
+
+            <span>
+                O CONVITE
+            </span>
+
+            <h2>
+                Você está convidado
+            </h2>
+
+            <div class="ornament">
+                ✧
+            </div>
+
+        </div>
+
+
+
+        <div class="invitation-card">
+
+
+            <p class="card-small">
+                COM MUITO CARINHO
+            </p>
+
+
+            <h2>
+                Cecília
+            </h2>
+
+
+            <p class="card-text">
+
+                Quero compartilhar com você uma das noites
+                mais especiais da minha vida.
+
+            </p>
+
+
+
+            <!-- =========================
+                 INFORMAÇÕES DO EVENTO
+            ========================== -->
+
+            <div class="details">
+
+
+                <div>
+
+                    <span>
+                        DATA
+                    </span>
+
+                    <strong>
+                        20.12.2026
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        HORÁRIO
+                    </span>
+
+                    <strong>
+                        20:00
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        LOCAL
+                    </span>
+
+                    <strong>
+                        Espaço Elegance
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 MAPA
+            ================================================== -->
+
+            <div class="map-section">
+
+
+                <div class="map-header">
+
+                    <span>
+                        LOCALIZAÇÃO
+                    </span>
+
+                    <h3>
+                        Espaço Elegance
+                    </h3>
+
+                    <p>
+                        Encontre facilmente o local da nossa
+                        celebração.
+                    </p>
+
+                </div>
+
+
+
+                <div class="map-container">
+
+                    <!--
+                    IMPORTANTE:
+
+                    Substitua o src abaixo pelo link
+                    "Incorporar um mapa" do Google Maps.
+                    -->
+
+                    <iframe
+                        src="https://www.google.com/maps?q=Espa%C3%A7o%20Elegance&output=embed"
+                        loading="lazy"
+                        allowfullscreen
+                        referrerpolicy="no-referrer-when-downgrade"
+                        title="Mapa do Espaço Elegance"
+                    >
+                    </iframe>
+
+                </div>
+
+
+
+                <a
+                    href="https://www.google.com/maps/search/?api=1&query=Espa%C3%A7o+Elegance"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="map-button"
+                >
+
+                    📍 ABRIR NO GOOGLE MAPS
+
+                </a>
+
+
+            </div>
+
+
+
+            <!-- ENDEREÇO -->
+
+            <p class="address">
+
+                Av. Principal, 1000 — Centro
+
+            </p>
+
+
+
+            <!-- BOTÕES -->
+
+            <div class="card-buttons">
+
+
+                <a href="#confirmacao">
+
+                    Confirmar presença
+
+                </a>
+
+
+                <a
+                    href="https://www.google.com/maps/search/?api=1&query=Espa%C3%A7o+Elegance"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="outline"
+                >
+
+                    Ver localização
+
+                </a>
+
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         CONTAGEM REGRESSIVA
+    ====================================================== -->
+
+    <section class="countdown">
+
+
+        <p>
+            O GRANDE DIA ESTÁ CHEGANDO
+        </p>
+
+
+        <h2>
+            Faltam...
+        </h2>
+
+
+
+        <div class="timer">
+
+
+            <div>
+
+                <strong id="days">
+                    00
+                </strong>
+
+                <span>
+                    DIAS
+                </span>
+
+            </div>
+
+
+
+            <div>
+
+                <strong id="hours">
+                    00
+                </strong>
+
+                <span>
+                    HORAS
+                </span>
+
+            </div>
+
+
+
+            <div>
+
+                <strong id="minutes">
+                    00
+                </strong>
+
+                <span>
+                    MINUTOS
+                </span>
+
+            </div>
+
+
+
+            <div>
+
+                <strong id="seconds">
+                    00
+                </strong>
+
+                <span>
+                    SEGUNDOS
+                </span>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         HISTÓRIA
+    ====================================================== -->
+
+    <section class="story">
+
+
+        <div class="section-title">
+
+            <span>
+                MINHA HISTÓRIA
+            </span>
+
+            <h2>
+                Cada passo me trouxe até aqui
+            </h2>
+
+        </div>
+
+
+
+        <div class="timeline">
+
+
+            <div class="timeline-item">
+
+                <div class="timeline-number">
+                    01
+                </div>
+
+                <div class="timeline-text">
+
+                    <h3>
+                        Meu primeiro passo
+                    </h3>
+
+                    <p>
+
+                        Tudo começou com um pequeno passo,
+                        que logo se transformou em uma grande paixão.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="timeline-item">
+
+                <div class="timeline-number">
+                    02
+                </div>
+
+                <div class="timeline-text">
+
+                    <h3>
+                        Meu primeiro palco
+                    </h3>
+
+                    <p>
+
+                        As primeiras apresentações, os nervos,
+                        os aplausos e a emoção de dançar.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="timeline-item">
+
+                <div class="timeline-number">
+                    03
+                </div>
+
+                <div class="timeline-text">
+
+                    <h3>
+                        Um sonho realizado
+                    </h3>
+
+                    <p>
+
+                        O balé me ensinou que cada movimento
+                        faz parte de uma história.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="timeline-item">
+
+                <div class="timeline-number">
+                    04
+                </div>
+
+                <div class="timeline-text">
+
+                    <h3>
+                        Meus 15 anos
+                    </h3>
+
+                    <p>
+
+                        E agora começa um novo capítulo.
+                        Um novo palco, novos sonhos e uma noite inesquecível.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         GALERIA
+    ====================================================== -->
+
+    <section class="gallery">
+
+
+        <div class="section-title">
+
+            <span>
+                MOMENTOS
+            </span>
+
+            <h2>
+                Memórias que ficam
+            </h2>
+
+        </div>
+
+
+
+        <div class="gallery-grid">
+
+
+            <img
+                src="Imagens/ballet 1.jpg"
+                alt="Foto da aniversariante"
+                loading="lazy"
+            >
+
+
+            <img
+                src="Imagens/ballet 2.jpg"
+                alt="Foto da aniversariante"
+                loading="lazy"
+            >
+
+
+            <img
+                src="Imagens/ballet 3.jpg"
+                alt="Foto da aniversariante"
+                loading="lazy"
+            >
+
+
+            <img
+                src="Imagens/ballet 4.jpg"
+                alt="Foto da aniversariante"
+                loading="lazy"
+            >
+
+
+            <img
+                src="Imagens/ballet 1.jpg"
+                alt="Foto da aniversariante"
+                loading="lazy"
+            >
+
+
+            <img
+                src="Imagens/ballet 4.jpg"
+                alt="Foto da aniversariante"
+                loading="lazy"
+            >
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         INFORMAÇÕES
+    ====================================================== -->
+
+    <section class="information">
+
+
+        <div class="section-title">
+
+            <span>
+                A NOITE
+            </span>
+
+            <h2>
+                Informações importantes
+            </h2>
+
+        </div>
+
+
+
+        <div class="info-grid">
+
+
+            <div class="info-card">
+
+                <div class="icon">
+                    ♧
+                </div>
+
+                <h3>
+                    Data
+                </h3>
+
+                <p>
+
+                    20 de dezembro<br>
+                    Domingo
+
+                </p>
+
+            </div>
+
+
+
+            <div class="info-card">
+
+                <div class="icon">
+                    ◷
+                </div>
+
+                <h3>
+                    Horário
+                </h3>
+
+                <p>
+
+                    Recepção às<br>
+                    20:00
+
+                </p>
+
+            </div>
+
+
+
+            <div class="info-card">
+
+                <div class="icon">
+                    ♧
+                </div>
+
+                <h3>
+                    Local
+                </h3>
+
+                <p>
+
+                    Espaço Elegance<br>
+                    Centro
+
+                </p>
+
+            </div>
+
+
+
+            <div class="info-card">
+
+                <div class="icon">
+                    ♢
+                </div>
+
+                <h3>
+                    Traje
+                </h3>
+
+                <p>
+
+                    Social<br>
+                    Elegante
+
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         CONFIRMAÇÃO
+    ====================================================== -->
+
+    <section
+        id="confirmacao"
+        class="confirmation"
+    >
+
+
+        <div class="section-title">
+
+
+            <span>
+                RSVP
+            </span>
+
+
+            <h2>
+                Confirme sua presença
+            </h2>
+
+
+            <p>
+
+                Sua presença tornará essa noite ainda mais especial.
+
+            </p>
+
+
+        </div>
+
+
+
+        <form class="rsvp-form">
+
+
+            <input
+                type="text"
+                placeholder="Seu nome completo"
+                required
+            >
+
+
+            <input
+                type="tel"
+                placeholder="Seu telefone"
+            >
+
+
+            <select required>
+
+                <option value="">
+                    Você irá comparecer?
+                </option>
+
+                <option>
+                    Sim, estarei presente
+                </option>
+
+                <option>
+                    Infelizmente não poderei
+                </option>
+
+            </select>
+
+
+            <input
+                type="number"
+                min="0"
+                placeholder="Quantidade de acompanhantes"
+            >
+
+
+            <button type="submit">
+
+                Confirmar presença
+
+            </button>
+
+
+        </form>
+
+
+    </section>
+
+
+
+    <!-- =====================================================
+         FINAL
+    ====================================================== -->
+
+    <footer class="final">
+
+
+        <div class="final-overlay"></div>
+
+
+        <div class="final-content">
+
+
+            <p>
+                UM NOVO CAPÍTULO COMEÇA
+            </p>
+
+
+            <h2>
+
+                Cada passo<br>
+                me trouxe até aqui.
+
+            </h2>
+
+
+            <div class="final-line"></div>
+
+
+            <span>
+                Cecília
+            </span>
+
+
+            <strong>
+                15 ANOS
+            </strong>
+
+
+            <p class="thanks">
+
+                Espero você para celebrar comigo.
+
+            </p>
+
+
+        </div>
+
+
+    </footer>
+
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script>
+
+
+        /* =================================================
+           SPLASH
+        ================================================== */
+
+        const splash =
+            document.getElementById("splash");
+
+        const enterButton =
+            document.getElementById("enterButton");
+
+
+        enterButton.addEventListener(
+            "click",
+            () => {
+
+                splash.classList.add("hidden");
+
+                document.body.classList.remove("locked");
+
+            }
+        );
+
+
+
+        /* =================================================
+           CONTAGEM REGRESSIVA
+        ================================================== */
+
+        const targetDate =
+            new Date(
+                "December 20, 2026 20:00:00"
+            ).getTime();
+
+
+
+        function updateCountdown() {
+
+
+            const now =
+                new Date().getTime();
+
+
+            const distance =
+                targetDate - now;
+
+
+
+            if (distance <= 0) {
+
+                document.getElementById("days").innerText =
+                    "00";
+
+                document.getElementById("hours").innerText =
+                    "00";
+
+                document.getElementById("minutes").innerText =
+                    "00";
+
+                document.getElementById("seconds").innerText =
+                    "00";
+
+                return;
+
+            }
+
+
+
+            const days =
+                Math.floor(
+                    distance /
+                    (1000 * 60 * 60 * 24)
+                );
+
+
+
+            const hours =
+                Math.floor(
+                    (distance %
+                        (1000 * 60 * 60 * 24))
+                    /
+                    (1000 * 60 * 60)
+                );
+
+
+
+            const minutes =
+                Math.floor(
+                    (distance %
+                        (1000 * 60 * 60))
+                    /
+                    (1000 * 60)
+                );
+
+
+
+            const seconds =
+                Math.floor(
+                    (distance %
+                        (1000 * 60))
+                    /
+                    1000
+                );
+
+
+
+            document.getElementById("days").innerText =
+                String(days).padStart(2, "0");
+
+
+            document.getElementById("hours").innerText =
+                String(hours).padStart(2, "0");
+
+
+            document.getElementById("minutes").innerText =
+                String(minutes).padStart(2, "0");
+
+
+            document.getElementById("seconds").innerText =
+                String(seconds).padStart(2, "0");
+
+        }
+
+
+
+        updateCountdown();
+
+        setInterval(
+            updateCountdown,
+            1000
+        );
+
+
+
+        /* =================================================
+           FORMULÁRIO
+        ================================================== */
+
+        const rsvpForm =
+            document.querySelector(".rsvp-form");
+
+
+        rsvpForm.addEventListener(
+            "submit",
+            function (event) {
+
+                event.preventDefault();
+
+
+                alert(
+                    "Obrigado! Sua confirmação foi registrada."
+                );
+
+
+                this.reset();
+
+            }
+        );
+
+
+    </script>
+
+
 </body>
-</html>
+
+</html> 
