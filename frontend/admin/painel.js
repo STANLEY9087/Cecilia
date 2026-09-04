@@ -242,7 +242,7 @@
   }
 
   // ─── Init ────────────────────────────────────────────────────
-  (async function init) {
+  (async () => {
     const ok = await checkAuth();
     if (ok) loadStats();
   })();
