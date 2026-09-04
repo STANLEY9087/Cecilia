@@ -791,6 +791,8 @@
 
             <input
                 type="text"
+                id="rsvpNome"
+                name="nome"
                 placeholder="Seu nome completo"
                 required
             >
@@ -798,21 +800,27 @@
 
             <input
                 type="tel"
+                id="rsvpTelefone"
+                name="telefone"
                 placeholder="Seu telefone"
             >
 
 
-            <select required>
+            <select
+                id="rsvpVai"
+                name="vai"
+                required
+            >
 
                 <option value="">
                     Você irá comparecer?
                 </option>
 
-                <option>
+                <option value="sim">
                     Sim, estarei presente
                 </option>
 
-                <option>
+                <option value="nao">
                     Infelizmente não poderei
                 </option>
 
@@ -821,6 +829,8 @@
 
             <input
                 type="number"
+                id="rsvpAcomp"
+                name="num_acompanhantes"
                 min="0"
                 placeholder="Quantidade de acompanhantes"
             >
@@ -1040,20 +1050,119 @@
         const rsvpForm =
             document.querySelector(".rsvp-form");
 
+        const rsvpNome =
+            document.getElementById("rsvpNome");
+
+        const rsvpTelefone =
+            document.getElementById("rsvpTelefone");
+
+        const rsvpVai =
+            document.getElementById("rsvpVai");
+
+        const rsvpAcomp =
+            document.getElementById("rsvpAcomp");
+
+        const rsvpSubmit =
+            rsvpForm.querySelector(
+                'button[type="submit"]'
+            );
+
 
         rsvpForm.addEventListener(
             "submit",
-            function (event) {
+            async function (event) {
 
                 event.preventDefault();
 
+                const nome =
+                    rsvpNome.value.trim();
 
-                alert(
-                    "Obrigado! Sua confirmação foi registrada."
-                );
+                if (!nome) {
+                    alert(
+                        "Por favor, informe seu nome."
+                    );
 
+                    return;
+                }
 
-                this.reset();
+                const body = {
+                    nome: nome,
+                    telefone:
+                        rsvpTelefone.value.trim(),
+                    vai:
+                        rsvpVai.value || "sim",
+                    num_acompanhantes:
+                        parseInt(
+                            rsvpAcomp.value,
+                            10
+                        ) || 0,
+                };
+
+                rsvpSubmit.disabled = true;
+
+                const originalText =
+                    rsvpSubmit.textContent;
+
+                rsvpSubmit.textContent =
+                    "Enviando...";
+
+                try {
+
+                    const response =
+                        await fetch(
+                            "https://cecilia-backend-xcwz.onrender.com/api/convidados",
+                            {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type":
+                                        "application/json",
+                                },
+                                body:
+                                    JSON.stringify(
+                                        body
+                                    ),
+                            }
+                        );
+
+                    const data =
+                        await response
+                            .json()
+                            .catch(
+                                () =>
+                                    ({})
+                            );
+
+                    if (!response.ok) {
+
+                        alert(
+                            data.error ||
+                            "Não foi possível registrar sua confirmação. Tente novamente."
+                        );
+
+                        return;
+
+                    }
+
+                    alert(
+                        "Obrigado! Sua confirmação foi registrada."
+                    );
+
+                    this.reset();
+
+                } catch (err) {
+
+                    alert(
+                        "Não foi possível conectar ao servidor. Tente novamente."
+                    );
+
+                } finally {
+
+                    rsvpSubmit.disabled = false;
+
+                    rsvpSubmit.textContent =
+                        originalText;
+
+                }
 
             }
         );
