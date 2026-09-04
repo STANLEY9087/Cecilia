@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fotos - Cecília 15 Anos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="fotos.css">
+</head>
+<body>
+
+  <!-- Stars background -->
+  <div class="stars-bg" id="starsBg"></div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-name">CECILIA</span>
+        <span class="logo-age">15</span>
+      </a>
+      <nav class="nav">
+        <a href="index.html" class="nav-link">Inicio</a>
+        <a href="fotos.html" class="nav-link active">Fotos</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1 class="hero-title">MEMORIAS DA NOITE</h1>
+    <p class="hero-subtitle">Galeria de Fotos</p>
+    <p class="hero-desc">Compartilhe os momentos especiais da festa de 15 anos da Cecilia.</p>
+  </section>
+
+  <!-- Upload Section -->
+  <section class="upload-section">
+    <div class="upload-card">
+      <!-- Period banner (hidden by default, shown by JS) -->
+      <div class="period-banner" id="periodBanner" hidden>
+        <p class="period-banner-text" id="periodBannerText"></p>
+      </div>
+
+      <!-- Login banner (hidden by default, shown by JS when not authenticated) -->
+      <div class="period-banner" id="authBanner" hidden>
+        <p class="period-banner-text" id="authBannerText"></p>
+      </div>
+
+      <h2 class="upload-card-title">COMPARTILHE SUA FOTO</h2>
+      <p class="upload-card-desc">Tirou uma foto com a Cecilia?</p>
+      <p class="upload-card-subdesc">Envie sua foto para fazer parte da galeria oficial da festa.</p>
+
+      <form id="uploadForm" class="upload-form">
+        <!-- File input -->
+        <div class="form-group">
+          <label class="form-label" for="fotoInput">Escolha uma foto</label>
+          <div class="file-input-wrapper" id="fileInputWrapper">
+            <input
+              type="file"
+              id="fotoInput"
+              name="foto"
+              accept=".jpg,.jpeg,.png,.webp"
+              required
+              hidden
+            >
+            <span class="file-input-text" id="fileInputText">Selecionar imagem...</span>
+            <span class="file-input-name" id="fileName"></span>
+          </div>
+        </div>
+
+        <!-- Nome -->
+        <div class="form-group">
+          <label class="form-label" for="nomeInput">Seu nome</label>
+          <input
+            type="text"
+            id="nomeInput"
+            name="nome"
+            class="form-input"
+            placeholder="Opcional"
+            maxlength="100"
+          >
+        </div>
+
+        <!-- Mensagem -->
+        <div class="form-group">
+          <label class="form-label" for="msgInput">Deixe uma mensagem para a Cecilia (opcional)</label>
+          <textarea
+            id="msgInput"
+            name="mensagem"
+            class="form-textarea"
+            placeholder="Parabens, Cecilia!"
+            maxlength="160"
+            rows="3"
+          ></textarea>
+          <span class="char-count"><span id="charCount">0</span>/160</span>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" id="submitBtn" class="submit-btn">
+          <span class="btn-text">Publicar foto</span>
+          <span class="btn-loading" hidden>Enviando...</span>
+        </button>
+      </form>
+
+      <!-- Status messages -->
+      <div id="uploadStatus" class="upload-status" hidden></div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <section class="gallery-section">
+    <div class="gallery-header">
+      <div>
+        <h2 class="gallery-title">MOMENTOS</h2>
+        <p class="gallery-subtitle">Galeria</p>
+      </div>
+      <button class="refresh-btn" id="refreshBtn">Atualizar</button>
+    </div>
+
+    <div class="gallery-grid" id="galleryGrid">
+      <!-- Photos will be inserted here by JS -->
+    </div>
+
+    <div class="gallery-empty" id="galleryEmpty" hidden>
+      <p>Nenhuma foto publicada ainda.</p>
+      <p>Seja o primeiro a compartilhar um momento!</p>
+    </div>
+  </section>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modalOverlay" hidden>
+    <button class="modal-close" id="modalClose" aria-label="Fechar">&times;</button>
+    <div class="modal-content">
+      <img class="modal-img" id="modalImg" src="" alt="">
+      <div class="modal-info">
+        <p class="modal-name" id="modalName"></p>
+        <p class="modal-message" id="modalMessage"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2026 - Cecilia 15 Anos</p>
+  </footer>
+
+  <script src="fotos.js"></script>
+</body>
+</html>

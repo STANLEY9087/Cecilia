@@ -225,6 +225,7 @@ const allowedOrigins = [
   FRONTEND_URL,
 
   "https://cecilia15anos.netlify.app",
+  "https://cecilia15.netlify.app",
 
   "http://localhost:8080",
   "http://localhost:3000",

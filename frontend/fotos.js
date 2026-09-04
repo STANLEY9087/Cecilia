@@ -1,0 +1,412 @@
+(() => {
+  "use strict";
+
+  // ─── Config ──────────────────────────────────────────────────────────
+  const API_BASE = "https://cecilia-backend-xcwz.onrender.com";
+  const API_URL = `${API_BASE}/api/fotos`;
+  const MAX_SIZE = 10 * 1024 * 1024; // 10 MB
+  const ALLOWED_EXTENSIONS = [".jpg", ".jpeg", ".png", ".webp"];
+  const ALLOWED_MIMES = ["image/jpeg", "image/png", "image/webp"];
+
+  // ─── DOM ─────────────────────────────────────────────────────────────
+  const $form = document.getElementById("uploadForm");
+  const $fotoInput = document.getElementById("fotoInput");
+  const $fileWrapper = document.getElementById("fileInputWrapper");
+  const $fileInputText = document.getElementById("fileInputText");
+  const $fileName = document.getElementById("fileName");
+  const $nomeInput = document.getElementById("nomeInput");
+  const $msgInput = document.getElementById("msgInput");
+  const $charCount = document.getElementById("charCount");
+  const $submitBtn = document.getElementById("submitBtn");
+  const $btnText = $submitBtn.querySelector(".btn-text");
+  const $btnLoading = $submitBtn.querySelector(".btn-loading");
+  const $uploadStatus = document.getElementById("uploadStatus");
+  const $galleryGrid = document.getElementById("galleryGrid");
+  const $galleryEmpty = document.getElementById("galleryEmpty");
+  const $refreshBtn = document.getElementById("refreshBtn");
+  const $modalOverlay = document.getElementById("modalOverlay");
+  const $modalClose = document.getElementById("modalClose");
+  const $modalImg = document.getElementById("modalImg");
+  const $modalName = document.getElementById("modalName");
+  const $modalMessage = document.getElementById("modalMessage");
+  const $starsBg = document.getElementById("starsBg");
+  const $periodBanner = document.getElementById("periodBanner");
+  const $periodBannerText = document.getElementById("periodBannerText");
+  const $authBanner = document.getElementById("authBanner");
+  const $authBannerText = document.getElementById("authBannerText");
+  const $uploadCard = document.querySelector(".upload-card");
+
+  // ─── Stars ───────────────────────────────────────────────────────────
+  function createStars() {
+    const count = 60;
+    for (let i = 0; i < count; i++) {
+      const star = document.createElement("div");
+      star.className = "star";
+      star.style.left = Math.random() * 100 + "%";
+      star.style.top = Math.random() * 100 + "%";
+      star.style.setProperty("--duration", 2 + Math.random() * 4 + "s");
+      star.style.setProperty("--delay", Math.random() * 4 + "s");
+      const size = 1 + Math.random() * 2;
+      star.style.width = size + "px";
+      star.style.height = size + "px";
+      $starsBg.appendChild(star);
+    }
+  }
+  createStars();
+
+  // ─── Helpers ─────────────────────────────────────────────────────────
+  function escapeHtml(str) {
+    if (!str) return "";
+    const div = document.createElement("div");
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  function sanitizeText(str) {
+    if (!str || typeof str !== "string") return "";
+    return str.replace(/[<>]/g, "").trim();
+  }
+
+  function getExtension(filename) {
+    const idx = filename.lastIndexOf(".");
+    return idx >= 0 ? filename.slice(idx).toLowerCase() : "";
+  }
+
+  function resolvePhotoUrl(url) {
+    if (!url) return "";
+    if (url.startsWith("/")) return API_BASE + url;
+    return url;
+  }
+
+  function showStatus(message, type) {
+    $uploadStatus.textContent = message;
+    $uploadStatus.className = `upload-status ${type}`;
+    $uploadStatus.hidden = false;
+  }
+
+  function hideStatus() {
+    $uploadStatus.hidden = true;
+    $uploadStatus.textContent = "";
+  }
+
+  function setLoading(loading) {
+    $submitBtn.disabled = loading;
+    $btnText.hidden = loading;
+    $btnLoading.hidden = !loading;
+  }
+
+  function resetForm() {
+    $form.reset();
+    $fileName.textContent = "";
+    $fileInputText.textContent = "Selecionar imagem...";
+    $charCount.textContent = "0";
+    hideStatus();
+  }
+
+  // ─── File Selection ──────────────────────────────────────────────────
+  $fileWrapper.addEventListener("click", () => $fotoInput.click());
+
+  $fileWrapper.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    $fileWrapper.style.borderColor = "var(--color-primary)";
+  });
+
+  $fileWrapper.addEventListener("dragleave", () => {
+    $fileWrapper.style.borderColor = "";
+  });
+
+  $fileWrapper.addEventListener("drop", (e) => {
+    e.preventDefault();
+    $fileWrapper.style.borderColor = "";
+    if (e.dataTransfer.files.length > 0) {
+      $fotoInput.files = e.dataTransfer.files;
+      handleFileSelect(e.dataTransfer.files[0]);
+    }
+  });
+
+  $fotoInput.addEventListener("change", () => {
+    if ($fotoInput.files.length > 0) {
+      handleFileSelect($fotoInput.files[0]);
+    }
+  });
+
+  function handleFileSelect(file) {
+    hideStatus();
+
+    if (!file) return;
+
+    // Validate extension
+    const ext = getExtension(file.name);
+    if (!ALLOWED_EXTENSIONS.includes(ext)) {
+      showStatus("Formato nao permitido. Use .jpg, .jpeg, .png ou .webp.", "error");
+      $fotoInput.value = "";
+      return;
+    }
+
+    // Validate MIME
+    if (!ALLOWED_MIMES.includes(file.type)) {
+      showStatus("Tipo de arquivo nao permitido.", "error");
+      $fotoInput.value = "";
+      return;
+    }
+
+    // Validate size
+    if (file.size > MAX_SIZE) {
+      showStatus("Arquivo excede o limite de 10 MB.", "error");
+      $fotoInput.value = "";
+      return;
+    }
+
+    $fileInputText.textContent = "Imagem selecionada:";
+    $fileName.textContent = file.name;
+  }
+
+  // ─── Character Count ─────────────────────────────────────────────────
+  $msgInput.addEventListener("input", () => {
+    $charCount.textContent = $msgInput.value.length;
+  });
+
+  // ─── Submit ──────────────────────────────────────────────────────────
+  $form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    hideStatus();
+
+    if (!$fotoInput.files || $fotoInput.files.length === 0) {
+      showStatus("Selecione uma imagem primeiro.", "error");
+      return;
+    }
+
+    const file = $fotoInput.files[0];
+
+    // Double check validation
+    const ext = getExtension(file.name);
+    if (!ALLOWED_EXTENSIONS.includes(ext) || !ALLOWED_MIMES.includes(file.type)) {
+      showStatus("Formato de arquivo invalido.", "error");
+      return;
+    }
+
+    if (file.size > MAX_SIZE) {
+      showStatus("Arquivo excede o limite de 10 MB.", "error");
+      return;
+    }
+
+    const nome = sanitizeText($nomeInput.value).slice(0, 100);
+    const mensagem = sanitizeText($msgInput.value).slice(0, 160);
+
+    const formData = new FormData();
+    formData.append("foto", file);
+    if (nome) formData.append("nome", nome);
+    if (mensagem) formData.append("mensagem", mensagem);
+
+    setLoading(true);
+
+    try {
+      const response = await fetch(API_URL, {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        if (data.code === "PHOTO_UPLOAD_NOT_STARTED" || data.code === "PHOTO_UPLOAD_FINISHED") {
+          showStatus(data.message, "error");
+          checkUploadStatus();
+          return;
+        }
+        if (data.code === "AUTH_REQUIRED") {
+          showStatus(data.message, "error");
+          setAuthenticatedBanner(false);
+          return;
+        }
+        throw new Error(data.error || "Erro ao enviar a foto.");
+      }
+
+      showStatus("Foto publicada com sucesso! ✨", "success");
+      resetForm();
+      loadGallery();
+    } catch (err) {
+      if (err.name === "TypeError" && err.message.includes("fetch")) {
+        showStatus(
+          "Nao foi possivel conectar ao servidor. Tente novamente.",
+          "error"
+        );
+      } else {
+        showStatus(
+          err.message || "Nao foi possivel enviar a foto. Tente novamente.",
+          "error"
+        );
+      }
+    } finally {
+      setLoading(false);
+    }
+  });
+
+  // ─── Gallery ─────────────────────────────────────────────────────────
+  async function loadGallery() {
+    try {
+      const response = await fetch(API_URL);
+      if (!response.ok) throw new Error("Erro ao buscar fotos.");
+
+      const photos = await response.json();
+
+      $galleryGrid.innerHTML = "";
+
+      if (!photos || photos.length === 0) {
+        $galleryEmpty.hidden = false;
+        return;
+      }
+
+      $galleryEmpty.hidden = true;
+
+      photos.forEach((photo) => {
+        const card = document.createElement("div");
+        card.className = "photo-card";
+        card.setAttribute("role", "button");
+        card.setAttribute("tabindex", "0");
+        card.setAttribute("aria-label", `Foto de ${escapeHtml(photo.nome) || "convidado"}`);
+
+        const imgWrapper = document.createElement("div");
+        imgWrapper.className = "photo-card-img-wrapper";
+
+        const img = document.createElement("img");
+        img.className = "photo-card-img";
+        img.src = resolvePhotoUrl(photo.url);
+        img.alt = `Foto de ${escapeHtml(photo.nome) || "convidado"}`;
+        img.loading = "lazy";
+
+        imgWrapper.appendChild(img);
+
+        const info = document.createElement("div");
+        info.className = "photo-card-info";
+
+        if (photo.nome) {
+          const nameEl = document.createElement("p");
+          nameEl.className = "photo-card-name";
+          nameEl.textContent = photo.nome;
+          info.appendChild(nameEl);
+        }
+
+        if (photo.mensagem) {
+          const msgEl = document.createElement("p");
+          msgEl.className = "photo-card-msg";
+          msgEl.textContent = photo.mensagem;
+          info.appendChild(msgEl);
+        }
+
+        card.appendChild(imgWrapper);
+        card.appendChild(info);
+
+        card.addEventListener("click", () => openModal(photo));
+        card.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            openModal(photo);
+          }
+        });
+
+        $galleryGrid.appendChild(card);
+      });
+    } catch (err) {
+      $galleryGrid.innerHTML = "";
+      $galleryEmpty.hidden = false;
+      console.error("Erro ao carregar galeria:", err);
+    }
+  }
+
+  $refreshBtn.addEventListener("click", loadGallery);
+
+  // ─── Modal ───────────────────────────────────────────────────────────
+  function openModal(photo) {
+    $modalImg.src = resolvePhotoUrl(photo.url);
+    $modalImg.alt = `Foto de ${escapeHtml(photo.nome) || "convidado"}`;
+    $modalName.textContent = photo.nome || "";
+    $modalName.hidden = !photo.nome;
+    $modalMessage.textContent = photo.mensagem || "";
+    $modalMessage.hidden = !photo.mensagem;
+    $modalOverlay.hidden = false;
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeModal() {
+    $modalOverlay.hidden = true;
+    $modalImg.src = "";
+    document.body.style.overflow = "";
+  }
+
+  $modalClose.addEventListener("click", closeModal);
+
+  $modalOverlay.addEventListener("click", (e) => {
+    if (e.target === $modalOverlay) {
+      closeModal();
+    }
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !$modalOverlay.hidden) {
+      closeModal();
+    }
+  });
+
+  // ─── Upload Period Control ─────────────────────────────────────────
+  function setUploadEnabled(enabled) {
+    $form.classList.toggle("is-disabled", !enabled);
+    $submitBtn.disabled = !enabled;
+    $fileWrapper.style.pointerEvents = enabled ? "" : "none";
+    $nomeInput.disabled = !enabled;
+    $msgInput.disabled = !enabled;
+  }
+
+  function setAuthenticatedBanner(authEnabled) {
+    if (!authEnabled) {
+      // Not authenticated — only the admin can upload
+      $authBanner.hidden = false;
+      $authBannerText.innerHTML =
+        'Apenas a equipe da festa pode enviar fotos. <a href="admin/login.html" style="color:var(--color-primary-light)">Sou o admin</a>.';
+      setUploadEnabled(false);
+    } else {
+      $authBanner.hidden = true;
+    }
+  }
+
+  async function checkUploadStatus() {
+    try {
+      const response = await fetch(`${API_BASE}/api/fotos/status`);
+      if (!response.ok) return;
+
+      const data = await response.json();
+      const authEnabled = !!data.authenticated;
+
+      // Admin (authenticated) can always upload, regardless of the period
+      if (authEnabled) {
+        $periodBanner.hidden = true;
+        $authBanner.hidden = true;
+        setUploadEnabled(true);
+        return;
+      }
+
+      // Public user: respect the party period
+      if (data.status === "not_started") {
+        $periodBanner.hidden = false;
+        $periodBannerText.textContent =
+          "A galeria ainda nao esta disponivel! As fotos poderao ser compartilhadas a partir do dia 20 de dezembro de 2026. Esperamos voce para celebrar esse momento especial!";
+        setAuthenticatedBanner(false);
+      } else if (data.status === "finished") {
+        $periodBanner.hidden = false;
+        $periodBannerText.textContent =
+          "O periodo de envio foi encerrado. Obrigado por fazer parte dos 15 anos da Cecilia! As memorias dessa noite ficarao guardadas com carinho.";
+        setAuthenticatedBanner(false);
+      } else if (data.status === "open") {
+        $periodBanner.hidden = true;
+        // Only enable upload if authenticated (admin)
+        setAuthenticatedBanner(authEnabled);
+      }
+    } catch (err) {
+      console.warn("Nao foi possivel verificar status de envio:", err);
+    }
+  }
+
+  // ─── Init ────────────────────────────────────────────────────────────
+  checkUploadStatus();
+  loadGallery();
+})();
