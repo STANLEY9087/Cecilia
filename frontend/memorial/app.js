@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  const API_BASE = "https://cecilia-api.onrender.com";
+  const API_BASE = "https://cecilia-backend-xcwz.onrender.com";
   const API_FOTOS = `${API_BASE}/api/fotos`;
   const API_STATUS = `${API_BASE}/api/fotos/status`;
   const API_ADMIN_ME = `${API_BASE}/api/admin/me`;
@@ -76,6 +76,12 @@
   function getExtension(filename) {
     const idx = filename.lastIndexOf(".");
     return idx >= 0 ? filename.slice(idx).toLowerCase() : "";
+  }
+
+  function resolvePhotoUrl(url) {
+    if (!url) return "";
+    if (url.startsWith("/")) return API_BASE + url;
+    return url;
   }
 
   function showStatus(el, message, type) {
@@ -232,7 +238,7 @@
 
         const img = document.createElement("img");
         img.className = "photo-card-img";
-        img.src = photo.url;
+        img.src = resolvePhotoUrl(photo.url);
         img.alt = `Foto de ${escapeHtml(photo.nome) || "convidado"}`;
         img.loading = "lazy";
         imgWrapper.appendChild(img);
@@ -274,7 +280,7 @@
 
   // ─── Modal ───────────────────────────────────────────────────
   function openModal(photo) {
-    $modalImg.src = photo.url;
+    $modalImg.src = resolvePhotoUrl(photo.url);
     $modalImg.alt = `Foto de ${escapeHtml(photo.nome) || "convidado"}`;
     $modalName.textContent = photo.nome || "";
     $modalName.hidden = !photo.nome;

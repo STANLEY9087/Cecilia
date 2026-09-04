@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  const API_BASE = "https://cecilia-api.onrender.com";
+  const API_BASE = "https://cecilia-backend-xcwz.onrender.com";
   const API_ADMIN_ME = `${API_BASE}/api/admin/me`;
   const API_ADMIN_LOGIN = `${API_BASE}/api/admin/login`;
   const API_ADMIN_LOGOUT = `${API_BASE}/api/admin/logout`;
@@ -112,7 +112,7 @@
       card.className = "photo-mod-card";
       card.innerHTML = `
         <div class="photo-mod-img-wrapper">
-          <img class="photo-mod-img" src="${escapeAttr(photo.url)}" alt="Foto" loading="lazy">
+          <img class="photo-mod-img" src="${escapeAttr(resolvePhotoUrl(photo.url))}" alt="Foto" loading="lazy">
           <span class="photo-mod-status ${photo.status}">${photo.status}</span>
         </div>
         <div class="photo-mod-info">
@@ -223,6 +223,12 @@
   function escapeAttr(str) {
     if (!str) return "";
     return str.replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+  }
+
+  function resolvePhotoUrl(url) {
+    if (!url) return "";
+    if (url.startsWith("/")) return API_BASE + url;
+    return url;
   }
 
   function formatDate(dateStr) {

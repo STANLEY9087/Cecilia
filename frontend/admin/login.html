@@ -55,7 +55,7 @@
     })();
 
     (function () {
-      var API_BASE = "https://cecilia-api.onrender.com";
+      var API_BASE = "https://cecilia-backend-xcwz.onrender.com";
       var form = document.getElementById("loginForm");
       var password = document.getElementById("password");
       var statusEl = document.getElementById("loginStatus");
@@ -76,6 +76,7 @@
           var res = await fetch(API_BASE + "/api/admin/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
+            credentials: "include",
             body: JSON.stringify({ password: password.value }),
           });
 

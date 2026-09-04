@@ -2,7 +2,7 @@
   "use strict";
 
   // ─── Config ──────────────────────────────────────────────────────────
-  const API_BASE = window.location.origin;
+  const API_BASE = "https://cecilia-backend-xcwz.onrender.com";
   const API_URL = `${API_BASE}/api/fotos`;
   const MAX_SIZE = 10 * 1024 * 1024; // 10 MB
   const ALLOWED_EXTENSIONS = [".jpg", ".jpeg", ".png", ".webp"];
@@ -70,6 +70,12 @@
   function getExtension(filename) {
     const idx = filename.lastIndexOf(".");
     return idx >= 0 ? filename.slice(idx).toLowerCase() : "";
+  }
+
+  function resolvePhotoUrl(url) {
+    if (!url) return "";
+    if (url.startsWith("/")) return API_BASE + url;
+    return url;
   }
 
   function showStatus(message, type) {
@@ -265,7 +271,7 @@
 
         const img = document.createElement("img");
         img.className = "photo-card-img";
-        img.src = photo.url;
+        img.src = resolvePhotoUrl(photo.url);
         img.alt = `Foto de ${escapeHtml(photo.nome) || "convidado"}`;
         img.loading = "lazy";
 
@@ -312,7 +318,7 @@
 
   // ─── Modal ───────────────────────────────────────────────────────────
   function openModal(photo) {
-    $modalImg.src = photo.url;
+    $modalImg.src = resolvePhotoUrl(photo.url);
     $modalImg.alt = `Foto de ${escapeHtml(photo.nome) || "convidado"}`;
     $modalName.textContent = photo.nome || "";
     $modalName.hidden = !photo.nome;
