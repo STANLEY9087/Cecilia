@@ -301,11 +301,7 @@ app.use(
     cookie: {
       httpOnly: true,
 
-      /*
-       * Lax funciona bem para o cenário atual.
-       */
-
-      sameSite: "lax",
+      sameSite: "none",
 
       /*
        * Em HTTPS, o Render/Netlify trabalham com conexão segura.
